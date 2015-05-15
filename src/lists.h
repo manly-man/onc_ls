@@ -12,35 +12,35 @@
 
 typedef struct Directory {
 
-    char *name;
+  char *name;
 } Directory;
 
 typedef struct File {
 
-    char *name;
-    bool isExecutable;
+  char *name;
+  bool isExecutable;
 } File;
 
 typedef struct SymLink {
 
-    char *name;
-    char *symLinkTo;
+  char *name;
+  char *symLinkTo;
 } SymLink;
 
 typedef struct Element {
 
-    unsigned char type;
-    struct Element *next;
-    union Data {
-        Directory *directory;
-        File *file;
-        SymLink *symLink;
-    } Data;
+  unsigned char type;
+  struct Element *next;
+  union Data {
+    Directory *directory;
+    File *file;
+    SymLink *symLink;
+  } Data;
 } Element;
 
 typedef struct List {
 
-    Element *head;
+  Element *head;
 } List;
 
 Element *addToList(List *list, Element *toAdd);
