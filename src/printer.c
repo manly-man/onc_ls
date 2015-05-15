@@ -77,7 +77,9 @@ void printList(List *list) {
         break;
       case TYPE_FILE:
         name = iterator->Data.file->name;
-        if(strncmp(getFilenameExt(name), "md", 10) == 0) {
+        if(iterator->Data.file->isExecutable) {
+          printf(KRED "%-*s" RESET, maxLength, name);
+        } else if(strncmp(getFilenameExt(name), "md", 10) == 0) {
           printf(KYEL "%-*s" RESET, maxLength, name);
         } else {
           printf(KWHT "%-*s" RESET, maxLength, name);

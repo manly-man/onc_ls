@@ -55,6 +55,11 @@ int main(int argc, char* argv[]) {
 
     if (S_ISREG(statbuf.st_mode)) {
       Element *newFile = createFile(entry->d_name, false);
+      if(statbuf.st_mode & 0111) {
+        newFile->Data.file->isExecutable = true;
+      } else {
+        newFile->Data.file->isExecutable = false;
+      }
       addToList(fileList, newFile);
 
     } else if (S_ISDIR(statbuf.st_mode)) {
