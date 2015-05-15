@@ -3,6 +3,8 @@
 
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <math.h>
+#include <stdio.h>
 
 #include "lists.h"
 

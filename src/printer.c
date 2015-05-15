@@ -38,6 +38,12 @@ int getMaxLength(List *list) {
   return maxLength;
 }
 
+char *getFilenameExt(char *filename) {
+  char *dot = strrchr(filename, '.');
+  if(!dot || dot == filename) return "";
+  return dot + 1;
+}
+
 void printList(List *list) {
 
   Element *iterator = list->head;
@@ -45,38 +51,47 @@ void printList(List *list) {
   int maxLength = getMaxLength(list);
   int terminalWidth = getTerminalWidth();
 
-  int remainingSpace = terminalWidth;
   char *name = "";
 
+  if(maxLength < 1) {
+    printf("Length of longest filename is smaller than 1");
+    return;
+  }
+
+  // maxLength + 1 because we seperate columns using whitespace
+  maxLength++;
+  double amountOfCols = floor(terminalWidth / maxLength);
+
+  int columnCounter = 0;
   while (iterator) {
+
+    if(columnCounter >= amountOfCols) {
+      columnCounter = 0;
+      printf("\n");
+    }
+
     switch (iterator->type) {
       case TYPE_DIR:
         name = iterator->Data.directory->name;
-        if(strnlen(name, maxLength) < remainingSpace) {
-          printf(KBLU "%-*s  " RESET, (int) strnlen(name, maxLength), name);
-          remainingSpace -= strnlen(name, maxLength) + 2;
-        } else {
-          printf("\n");
-          remainingSpace = terminalWidth;
-        }
+        printf(KBLU "%-*s" RESET, maxLength, name);
         break;
       case TYPE_FILE:
         name = iterator->Data.file->name;
-        if(strnlen(name, maxLength) < remainingSpace) {
-          printf(KMAG "%-*s  " RESET, (int) strnlen(name, maxLength), name);
-          remainingSpace -= strnlen(name, maxLength) + 2;
+        if(strncmp(getFilenameExt(name), "md", 10) == 0) {
+          printf(KYEL "%-*s" RESET, maxLength, name);
         } else {
-          printf("\n");
-          remainingSpace = terminalWidth;
+          printf(KWHT "%-*s" RESET, maxLength, name);
         }
         break;
       case TYPE_SYMLINK:
         name = iterator->Data.symLink->name;
-        printf(KGRN "%-*s -> %s\n" RESET, maxLength, name, iterator->Data.symLink->symLinkTo);
+        printf(KGRN "%-*s " RESET " -> " KBLU "%s\n" RESET, maxLength, name, iterator->Data.symLink->symLinkTo);
         break;
       default:
         printf("Unkown type");
     }
+
+    columnCounter++;
     iterator = iterator->next;
   }
   printf("\n");
