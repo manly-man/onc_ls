@@ -47,6 +47,8 @@ Element *addToList(List *list, Element *toAdd);
 
 bool isEmpty(List *list);
 
+int length(List *list);
+
 Element *createDirectory(char *name);
 Element *createFile(char *name, bool isExecutable);
 Element *createSymLink(char *name, char *symLinkTo);

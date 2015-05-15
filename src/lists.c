@@ -62,6 +62,23 @@ Element *addToList(List *list, Element *toAdd) {
   return toAdd;
 }
 
+int length(List *list) {
+
+  if(list->head == 0) {
+    return 0;
+  }
+
+  int length = 0;
+  Element *iterator = list->head;
+  while (iterator != 0) {
+    length++;
+    iterator = iterator->next;
+  }
+
+  return length;
+}
+
+
 bool isEmpty(List *list) {
 
   return list->head ? false : true;
