@@ -75,7 +75,6 @@ int main(int argc, char* argv[]) {
 
       Element *symLink = createSymLink(entry->d_name, symLinkName);
       addToList(symLinkList, symLink);
-
     }
   }
 
